@@ -1,0 +1,52 @@
+{
+    "users": [
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 0
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 1
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 1
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 1
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 1
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 2
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 2
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 2
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 3
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 3
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 3
+        },
+        {
+            "usuario": "0xAbDE415b1E78a166EE4B0061660F12F1341Be15E",
+            "verificacion": 4
+        }
+    ]
+}

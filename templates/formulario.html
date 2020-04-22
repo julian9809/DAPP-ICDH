@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="tab-pane container" id="formulario">
+  <p>Ingrese la información de la imagen</p>
+  <div class="form-group">
+      <label for="name">Nombre</label>
+      <input type="text" class="form-control" id="name" placeholder="Ingrese nombre de imagen">
+  </div>
+  <div class="form-group">
+      <label for="description">Descripcion</label>
+      <textarea class="form-control" id="description" placeholder="Ingrese descripcion de imagen" rows="4"></textarea>
+  <div class="form-group">
+    <label for="start">Fecha de Creación:</label>
+    <input type="date" id="start" name="trip-start"
+       value="2020-01-01"
+       min="1492-01-01" max="2022-12-31">
+  </div>
+  <input type="submit" class="btn btn-success" value="Listo" id="cargar_meta">
+</div>
+{% endblock %}

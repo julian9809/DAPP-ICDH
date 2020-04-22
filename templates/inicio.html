@@ -1,0 +1,72 @@
+<header id="header">
+</header>
+{% extends 'base/base.html' %}
+{% block content %}
+<div id="vacio">
+  <div>
+    {% if verificacion == "si" %}
+    {% block contentd %}
+    <div class="alert alert-primary" role="alert" >
+      Bienvenido {{account}}
+    </div>
+    {% endblock contentd %}
+    {% endif %}
+  </div>
+  <h1 class="display-2">DAPP - ICDH</h1>
+    <p class="lead text-light">
+      La aplicación descentralizada para la interacción cultural y de datos históricos (DAPP - ICDH), es un sistema basado en tecnologías como blockchain y el sistema interplanetario de archivo (IPFS), cuyo objetivo es brindar una plataforma Web que permita facilitar el proceso de alimentación y clasificación de recursos culturales e históricos, en formatos no estructurado, específicamente imágenes. Lo anterior, enmarcado en el proyecto titulado “Modelo de visualización de datos históricos y culturales basado en sistemas dinámicos cognitivos y blockchain”.
+    </p>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <div id="bajar">
+        <center>
+        <div id="modulos">
+          <center>
+          DAPP-ICDH tiene 3 modulos en los cuales los usuarios pueden interactuar
+          <br>
+          <br>
+          <a href="#footer" class="btn btn-light"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+          </center>
+        </div>
+        </center>
+        <footer id="footer">
+        </footer>
+      </div>
+  </div>
+  <div>
+      <div id="body">
+        <div class="row justify-content-around">
+          <h1 id="titulo2">Modulos Interactivos</h1>
+        </div>
+        <div class="row justify-content-around" id="cartas">
+          <div class="card col-3" style="width: 18rem;">
+            <img src="../static/images/violencia.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Carga de imagenes</h5>
+              <p class="card-text">Podras cargar tus imagenes para el enriquecimiento del sistema</p>
+              <a href="" id="cargar_imagen_inicio" class="btn btn-primary">Cargar imagen</a>
+            </div>
+          </div>
+          <div class="card col-3" style="width: 18rem;">
+            <img src="../static/images/guerra.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Clasificación de imagenes</h5>
+              <p class="card-text">Clasificaras las imagenes por si son o no violentas según tu criterio</p>
+              <a href="" id="clasificar_imagen_inicio" class="btn btn-primary">Clasificar imagenes</a>
+            </div>
+          </div>
+          <div class="card col-3" style="width: 18rem;">
+            <img src="../static/images/2-gaitan.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Visualización de imagenes</h5>
+              <p class="card-text">Visualizaras las imagenes segun la clasificaciòn hecha por los usuarios</p>
+              <a href="" id="cargar_imagen_inicio" class="btn btn-primary">Visulizar imagenes</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="subir">
+        <a href="#header" class="btn btn-primary"><i class="fa fa-chevron-up" aria-hidden="true"></i></a>
+      </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="container panel panel-warning" id="advertencia">
+  <div class="panel-heading">Advertencia</div>
+  <div class="panel-body">
+    <p>
+      El sistema agregará automaticamente la metadata de la imagen
+      (Nombre, descripción y Fecha de creación)
+    </p>
+    <p>¿Desea continuar?</p>
+    <button class="btn btn-danger" type="button" name="button" id="btn_formulario">No, ingresar metadata</button>
+    <button class="btn btn-success" type="button" name="button" id="btn_exito">Si</button>
+  </div>
+</div>
+{% endblock %}

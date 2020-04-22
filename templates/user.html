@@ -1,0 +1,64 @@
+{% extends 'base/base.html' %}
+	<!--==================================BARRA DE NAVEGACION===================================================-->
+{% block content %}
+	<ul class="nav nav-tabs">
+		<li class="nav-item">
+    	<a class="nav-link active" data-toggle="tab" href="#inicio">Inicio</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link" data-toggle="tab" href="#cargar_imagen">Cargar Imagen</a>
+  	</li>
+  	<li class="nav-item">
+    	<a class="nav-link" data-toggle="tab" href="#clasificar_imagen">Clasificar Imagenes</a>
+  	</li>
+  	<li class="nav-item">
+	  <a class="nav-link" data-toggle="tab" href="#visualizacion">Visualizacion</a>
+  	</li>
+	</ul>
+	<!--==================================CONTENIDO==================================================-->
+		<div class="tab-content">
+			<div class="tab-pane container active" id="inicio">
+					<h1 class="col-xl-12 text-center">Sirvio</h1>
+				</div>
+  		<div class="tab-pane container" id="cargar_imagen">
+				<br>
+				<p>Cargue una imagen desde su equipo</p>
+				<form class="" action="/uploader" method="post" enctype="multipart/form-data">
+						<input id="archivos" name="imagenes" type="file" multiple=true class="file">
+						<br>
+						<div class="form-group">
+    						<label for="name">Nombre</label>
+    						<input type="text" class="form-control" id="name" placeholder="Ingrese nombre de imagen">
+  					</div>
+  					<div class="form-group">
+    						<label for="description">Descripcion</label>
+    						<input type="text" class="form-control" id="description" placeholder="Ingrese descripcion de imagen">
+  					</div>
+						<div class="well">
+  <div id="datetimepicker1" class="input-append date">
+    <input data-format="dd/MM/yyyy hh:mm:ss" type="text"></input>
+    <span class="add-on">
+      <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+      </i>
+    </span>
+  </div>
+</div>
+<script type="text/javascript">
+  $(function() {
+    $('#datetimepicker1').datetimepicker({
+      language: 'pt-BR'
+    });
+  });
+</script>
+						<input id="btn_upload" type="submit" value="Cargar" class="btn btn-success">
+						<p>{{estado}}</p>
+				</form>
+			</div>
+  	<div class="tab-pane container fade" id="clasificar_imagen">
+				<h1 class="col-xl-12 text-center">Clasificar Imagen</h1>
+			</div>
+  	<div class="tab-pane container fade" id="visualizacion">
+				<h1 class="col-xl-12 text-center">Visualizacion</h1>
+			</div>
+	</div>
+{% endblock %}

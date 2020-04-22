@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="tab-pane container" id="panelCarga">
+  <br>
+  <div id="inicioCargar">
+    <button type="button" name="button" class="btn btn-primary" id="btn_inicio">
+      Volver al inicio
+    </button>
+  </div>
+  <br>
+  <br>
+  <form class="" action="/uploader" method="post" enctype="multipart/form-data">
+    <div>
+      <p>Cargue una imagen desde su equipo</p>
+      <input id="archivos" name="imagenes" type="file" multiple=true class="file">
+      <script>
+        $("#archivos").fileinput({
+          uploadAsync: false,
+          MaxFileCount: 1,
+          showRemove: true,
+          showCancel: true,
+          showUpload: false
+        });
+      </script>
+    </div>
+    <br>
+    <div id="error">
+      {{error}}
+    </div>
+    <p>Desea ingresar informacion de la imagen(*)</p>
+    <div class="form-check">
+      <input class="eleccion" type="radio" name="eleccion" id="" value="Si" checked>
+      <label class="form-check-label" for="exampleRadios1">
+        Si
+      </label>
+      <input class="eleccion" type="radio" name="eleccion" id="" value="no">
+      <label class="form-check-label" for="exampleRadios2">
+        No
+      </label>
+    </div>
+    <br>
+    <br>
+    <div id="row align-items-center">
+      <center>
+      <button type="button" name="button" class="col-4 btn btn-danger" id="btn_carga">Cancelar</button>
+      <input id="btn_upload" type="submit" value="Cargar" class="col-4 btn btn-success">
+      </center>
+    </div>
+    <br>
+    <div id="info">
+      *Si usted decide no ingresar la información de la imagen el sistema lo hara automaticamente
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login V1</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="../static/images/icons/favicon.ico"/>
+  <script src="../static/vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="../static/css/util.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/main.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/pag_inicio.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/carga.css">
+	<link rel="stylesheet" type="text/css" href="../static/css/clasificar.css">
+	<script src="{{ url_for('static', filename='../static/js/sweetalert.min.js') }}"></script>
+<!--===============================================================================================-->
+ <script src="/static/js/action_login.js"></script>
+ <script src="/static/js/action_upload.js"></script>
+ <script src="../../static/js/action_clas.js"></script>
+ <script src="/static/js/inicio.js"></script>
+</head>
+<body>
+
+	<div class="limiter" id="login">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img id = "logo_user" src="../static/images/logo.png" alt="IMG">
+				</div>
+
+				<form class="login100-form validate-form">
+					<span class="login100-form-title">
+						Login
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" placeholder="Contraseña" id="password_login">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="wrap-input100">
+  					<textarea class="form-control noresize" id="frase_usuario" rows="3" placeholder="Frase" ></textarea>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn" id="btn_login">
+							Login
+						</button>
+					</div>
+					<br><br>
+					<div class="text-center">
+						<a class="txt2" href="javascript:void(0);" id="register_account_form">
+							Crea tu cuenta
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="limiter" id="register">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img id = "logo_user" src="../static/images/logo.png" alt="IMG">
+				</div>
+
+				<form class="login100-form validate-form">
+					<span class="login100-form-title">
+						Registro
+					</span>
+
+					<div class="wrap-input100" data-validate = "Password is required">
+						<input class="input100" type="password" placeholder="Constraseña" id="password_registrer">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
+          <div class="wrap-input100 validate-input" data-validate = "Password is required">
+						<input class="input100" type="password" placeholder="Confirma contraseña" id="password_registrer_confirmation">
+						<span class="focus-input100"></span>
+						<span class="symbol-input100">
+							<i class="fa fa-lock" aria-hidden="true"></i>
+						</span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn" id="btn_registrar">
+							Registrar
+						</button>
+					</div>
+					<br><br>
+					<div class="text-center">
+						<a class="txt2" href="javascript:void(0);" id="login_form">
+							Login
+							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="limiter" id="register-phrase">
+		<div class="container-login100">
+			<div class="wrap-login100">
+				<div class="login100-pic js-tilt" data-tilt>
+					<img id = "logo_user" src="../static/images/logo.png" alt="IMG">
+				</div>
+
+				<form class="login100-form validate-form">
+					<span class="login100-form-title">
+						Registro
+					</span>
+
+
+					<div class="wrap-input100">
+						<p class="text-center">Esta es su frase de seguridad, por favor guardela en un lugar seguro</p>
+							<br>
+  					<textarea class="form-control noresize" id="frase_usuario_registro" rows="3" placeholder="Frase" ></textarea>
+					</div>
+
+					<br>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn" id="btn_guardar">
+							La tengo!
+						</button>
+					</div>
+					<br><br>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+
+<!--===============================================================================================-->
+
+<!--===============================================================================================-->
+	<script src="../static/vendor/bootstrap/js/popper.js"></script>
+	<script src="../static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../static/vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="../static/vendor/tilt/tilt.jquery.min.js"></script>
+	<script >
+		$('.js-tilt').tilt({
+			scale: 1.1
+		})
+	</script>
+<!--===============================================================================================-->
+
+
+</body>
+</html>

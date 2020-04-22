@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="tab-pane container" id="contenedor_imagen">
+  <p>A continuación podra clasificar la imagen mostrada por si es o no violenta</p>
+  <br>
+  <center>
+    <img src={{imagen}} class="img-fluid" alt="Responsive image" id="imagen">
+    <script>
+      onload=function(){
+        var im=document.getElementsByTagName('img');
+        for(var i=0,l=im.length;i<l;i++){
+          im[i].src=im[i].src+'?'+Math.random();
+        }
+      }
+    </script>
+  </center>
+  <br>
+  <div>
+  <center>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Titulo</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">{{titulo}}</th>
+          <td>{{fecha}}</td>
+          <td>{{descripcion}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </center>
+  </div>
+  <br>
+  <div id="row align-items-center">
+    <center>
+    <button type="button" name="button" class="col-4 btn btn-danger" id="btn_violenta">Violenta</button>
+    <button type="button" name="button" class="col-4 btn btn-success" id="btn_no_violenta">No Violenta</button>
+    </center>
+  </div>
+</div>
+{% endblock %}
