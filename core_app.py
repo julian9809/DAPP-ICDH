@@ -10,6 +10,7 @@ import metadata as mt
 import shutil
 from random import randint, uniform,random
 
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "./imagenes"
 ALLOWED_EXTENSIONS = set(["jpg","jpge","png"])
@@ -52,6 +53,7 @@ conexion, database ,raiz = crud.establecer_conexion(conexion)
 
 account_user = ""
 
+print("MongoDB")
 print(database.name)
 print(raiz.name)
 
@@ -129,6 +131,13 @@ def clasificacion():
     print("CLASIFICACION = "+clas)
     global cont
     global pos
+    hash = data_hash['hash'][cont-1]['hash']
+    verificacion = crud.verificar_existencia(raiz, account_user, hash)
+    print(verificacion)
+    if verificacion == "no existe" and clas != "no_clasificado":
+        print("insertando...")
+        print(crud.insertar_seleccion(raiz, account_user, hash, clas))
+    print(crud.mostrar_informacion(raiz, account_user))
     tam = data_hash['hash'].__len__()
     print("Contador" + repr(cont))
     if cont < tam:

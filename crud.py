@@ -1,7 +1,6 @@
 import pymongo
 import conexion as cn
 
-
 def establecer_conexion(conexion):
     conexion = cn.crear_conexion(conexion)
     database, raiz = cn.definir_raiz(conexion)
@@ -35,3 +34,28 @@ def obtener_cuenta(raiz, frase):
     for i in resultado:
         resultado_cuenta =  i["address"]
     return resultado_cuenta
+
+def verificar_existencia(raiz, user, hash):
+    verificar_array = ['violence_images','no_violence_images']
+    for i in range(0,2):
+        mydoc = raiz.find({"$and":[{"address":user},{verificar_array[i] : { "$in" : [ hash ] }}]}, {verificar_array[i]:1,"_id":0})
+        for x in mydoc:
+            print(x)
+            return "existe"
+    return "no existe"
+
+def insertar_seleccion(raiz, user, hash, clas):
+    if clas == "violenta":
+        raiz.update_one({"address":user},{"$push":{"violence_images":hash}})
+    elif clas == "no_violenta":
+        raiz.update_one({"address":user},{"$push":{"no_violence_images":hash}})
+    else:
+        return "No hubo clasificación"
+    return "Clasificada"
+
+def mostrar_informacion(raiz, user):
+    myquery = { "address" : user }
+    mydoc = raiz.find(myquery)
+    for x in mydoc:
+        return x
+    return "no encontrado"
