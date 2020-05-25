@@ -4,7 +4,7 @@ import registro as rg
 import crud
 import login as lg
 import os
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 import ipfs
 import metadata as mt
 import shutil
@@ -13,7 +13,7 @@ from random import randint, uniform,random
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "./imagenes"
-ALLOWED_EXTENSIONS = set(["jpg","jpge","png"])
+ALLOWED_EXTENSIONS = set(["jpg","jpeg","png"])
 global data_hash
 data_hash = {}
 data_hash['hash'] = []
