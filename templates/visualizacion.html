@@ -1,4 +1,66 @@
 {% extends 'base/base.html' %}
 {% block content %}
-
+<div class="tab-pane container" id="contenedor_preferencias">
+  <p>Visualización de imagenes violentas</p>
+  <br>
+  <center>
+    <div>
+      <!--<div class="col align-self-center">
+        <button type="button" class="btn btn-primary">
+          <span class="glyphicon glyphicon-chevron-left"></span>
+        </button>
+      </div>-->
+      <div>
+        <img src={{imagen}} class="img-fluid" alt="Responsive image" id="preferencia">
+        <script>
+          onload=function(){
+            var im=document.getElementsByTagName('img');
+            for(var i=0,l=im.length;i<l;i++){
+              im[i].src=im[i].src+'?'+Math.random();
+            }
+          }
+        </script>
+      </div>
+      <!--<div class="col align-self-center">
+        <button type="button" class="btn btn-primary" id="next_image">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+        </button>
+      </div>-->
+    </div>
+    <br>
+    <div id="usuarios">
+      Esta imagen es violenta para el {{puntaje}}% de los usuarios
+    </div>
+    <br>
+  </center>
+  <br>
+  <div>
+  <center>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Titulo</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">{{titulo}}</th>
+          <td>{{fecha}}</td>
+          <td>{{descripcion}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </center>
+  </div>
+  <br>
+  <div>
+    <center>
+      <button type="button" class="btn btn-success" id="next_image">
+        Siguiente
+      </button>
+    </center>
+  </div>
+  </div>
 {% endblock %}

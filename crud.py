@@ -46,9 +46,9 @@ def verificar_existencia(raiz, user, hash):
 
 def insertar_seleccion(raiz, user, hash, clas):
     if clas == "violenta":
-        raiz.update_one({"address":user},{"$push":{"violence_images":hash}})
+        raiz.update_one({"address":user},{"$addToSet":{"violence_images":hash}})
     elif clas == "no_violenta":
-        raiz.update_one({"address":user},{"$push":{"no_violence_images":hash}})
+        raiz.update_one({"address":user},{"$addToSet":{"no_violence_images":hash}})
     else:
         return "No hubo clasificación"
     return "Clasificada"

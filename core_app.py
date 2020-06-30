@@ -8,7 +8,12 @@ from werkzeug.utils import secure_filename
 import ipfs
 import metadata as mt
 import shutil
+import csv
 from random import randint, uniform,random
+import pandas as pd
+import file_csv
+import recommendation as rec
+#import smart_contract
 
 
 app = Flask(__name__)
@@ -32,21 +37,65 @@ else:
 def allowed_file(filename):
 	return "." in filename and filename.rsplit(".", 1)[1] in ALLOWED_EXTENSIONS
 
-global usuarios
-usuarios = {}
-usuarios['users'] = []
+global imagenes
+imagenes = {}
+imagenes['images'] = []
 
-if os.path.isfile('users.json'):
+if os.path.isfile('users.csv'):
     print("archivo existe")
-    with open('users.json') as file:
-        usuarios = json.load(file)
 else:
     print("archivo no existe")
-    with open('users.json','w')as file:
-        json.dump(usuarios,file,indent=4)
+    with open('users.csv', 'w') as csvfile:
+        fieldnames = ['idUser', 'user']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
 
-cont = 0
-pos = 0
+if os.path.isfile('images.csv'):
+    print("archivo existe")
+else:
+    print("archivo no existe")
+    with open('images.csv', 'w') as csvfile:
+        fieldnames = ['idImage', 'image']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+if os.path.isfile('election.csv'):
+    print("archivo existe")
+else:
+    print("archivo no existe")
+    with open('election.csv', 'w') as csvfile:
+        fieldnames = ['idUser', 'IdImage','election']
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+
+if os.path.isfile('images.json'):
+    print("archivo existe")
+    with open('images.json') as file:
+        imagenes = json.load(file)
+else:
+    print("archivo no existe")
+    with open('images.json','w')as file:
+        json.dump(imagenes,file,indent=4)
+
+global elecciones
+elecciones = {}
+elecciones['election'] = []
+
+global elections
+elections = {}
+elections['election'] = []
+
+if os.path.isfile('election.json'):
+    print("archivo existe")
+    remove("election.json")
+else:
+    print("archivo no existe")
+    with open('election.json','w')as file:
+        json.dump(elecciones,file,indent=4)
+
+visu_cont = 0
+cont_ima = 0
+control = ""
 
 conexion = None
 conexion, database ,raiz = crud.establecer_conexion(conexion)
@@ -59,7 +108,7 @@ print(raiz.name)
 
 @app.route('/')
 def index():
-	return render_template('login.html')
+    return render_template('login.html')
 
 @app.route('/user', methods=['POST'])
 def user():
@@ -68,13 +117,12 @@ def user():
     print(data_dictionary)
     global account_user
     account_user = data_dictionary["account"]
+    fieldnames = ['idUser','user']
+    print(file_csv.insertar_datos("users.csv",fieldnames,account_user))
     return render_template('inicio.html', account=account_user, verificacion="si")
 
 @app.route('/inicio', methods=['POST'])
 def begin():
-    global cont
-    cont  = 0
-    print("reiniciar contador")
     return render_template('inicio.html')
 
 @app.route('/formulario', methods=['POST'])
@@ -83,25 +131,10 @@ def metadata():
 
 @app.route('/carga', methods=['POST'])
 def carga_imagen():
-    global cont
-    cont = 0
-    print("reiniciar contador")
     return render_template('carga.html')
 
 @app.route('/clasificar', methods=['POST'])
 def clasificar():
-    global cont
-    cont2 = 0
-    global pos
-    tam_Usu = usuarios['users'].__len__()
-    for i in range(0,tam_Usu):
-        if usuarios['users'][i]['usuario'] == account_user:
-            cont2 = cont2 + 1
-            pos = i
-        else:
-            cont2  = cont2
-    if cont2 != 0:
-        cont = usuarios['users'][pos]['verificacion']
     return render_template('cargar_imagenes.html')
 
 @app.route('/cargar_imagenes', methods=['POST'])
@@ -119,70 +152,66 @@ def cargar_imagenes():
             except Exception as e:
                 print(e)
     arreglo = data_hash['hash']
-    print(ipfs.cargar_archivos(arreglo))
+    print(ipfs.cargar_archivos(arreglo,imagenes))
     print("iniciar clasificacion")
     return render_template('carga_exitosa.html')
 
 @app.route('/clasificacion', methods=['POST'])
 def clasificacion():
+    global cont_ima
+    print("CONTADOR"+repr(cont_ima))
     data = request.form
     data_dictionary = data.copy()
     clas = data_dictionary["clasificacion"]
     print("CLASIFICACION = "+clas)
-    global cont
-    global pos
-    hash = data_hash['hash'][cont-1]['hash']
+    hash = data_hash['hash'][cont_ima-1]['hash']
+    print("ESTE ES EL HASH"+hash)
     verificacion = crud.verificar_existencia(raiz, account_user, hash)
     print(verificacion)
     if verificacion == "no existe" and clas != "no_clasificado":
         print("insertando...")
         print(crud.insertar_seleccion(raiz, account_user, hash, clas))
     print(crud.mostrar_informacion(raiz, account_user))
+    fieldnames = ['idUser', 'IdImage','election']
+    print(file_csv.insertar_eleccion(clas,fieldnames,account_user,hash))
     tam = data_hash['hash'].__len__()
-    print("Contador" + repr(cont))
-    if cont < tam:
-        imagen = "../static/images/clasificar/imagen"+repr(cont)
-        archivo = 'data/datos'+repr(cont)+'.json'
+    if cont_ima < tam:
+        imagen = "../static/images/clasificar/imagen"+repr(cont_ima)
+        archivo = 'data/datos'+repr(cont_ima)+'.json'
         with open(archivo) as file:
             datos = json.load(file)
         titulo = datos['name']
         fecha = datos['date']
         descripcion = datos['description']
-        usuarios['users'].append({
-            'usuario' : account_user,
-            'verificacion' : cont
-        })
-        with open('users.json','w')as file:
-            json.dump(usuarios,file,indent=4)
-        cont = cont + 1
+        cont_ima = cont_ima + 1
         return render_template('clasificacion.html', imagen=imagen, titulo=titulo, fecha=fecha, descripcion=descripcion)
     else:
-        usuarios['users'].append({
-                'usuario' : account_user,
-                'verificacion' : cont
-        })
-        with open('users.json','w')as file:
-            json.dump(usuarios,file,indent=4)
-        cont = 0
+        cont_ima = 0
         return render_template('clas_fin.html')
 
 @app.route('/carga_ipfs', methods=['POST'])
 def carga_ipfs():
-	data_hash['hash'].append({
-		'hash' : ipfs.subir_archivo('./imagenes')
-	})
-	with open('ipfs_hash.json','w')as file:
-		json.dump(data_hash,file,indent=4)
-	return render_template('carga.html')
+    hash = ipfs.subir_archivo('./imagenes')
+    data_hash['hash'].append({
+        'hash':hash
+    })
+    with open('ipfs_hash.json','w')as file:
+        json.dump(data_hash,file,indent=4)
+    fieldnames = ['idImage','image']
+    print(file_csv.insertar_datos("images.csv",fieldnames,hash))
+    return render_template('carga.html')
 
 @app.route('/inicio_ipfs', methods=['POST'])
 def inicio_ipfs():
-	data_hash['hash'].append({
-		'hash' : ipfs.subir_archivo('./imagenes')
-	})
-	with open('ipfs_hash.json','w')as file:
-		json.dump(data_hash,file,indent=4)
-	return render_template('inicio.html')
+    hash = ipfs.subir_archivo('./imagenes')
+    data_hash['hash'].append({
+        'hash':hash
+    })
+    with open('ipfs_hash.json','w')as file:
+        json.dump(data_hash,file,indent=4)
+    fieldnames = ['idImage','image']
+    print(file_csv.insertar_datos("images.csv",fieldnames,hash))
+    return render_template('inicio.html')
 
 @app.route('/exito', methods=['POST'])
 def exito_carga():
@@ -223,8 +252,65 @@ def form():
 			json.dump(data,file,indent=4)
 		return render_template('exito.html')
 
+@app.route('/visualizacion', methods=['POST'])
+def visualizacion():
+    global control
+    print("control = "+control)
+    if control == "":
+        if os.path.isfile('election.json'):
+            print("archivo existe")
+            remove("election.json")
+        else:
+            print("archivo no existe")
+            with open('election.json','w')as file:
+                json.dump(elecciones,file,indent=4)
+        control = rec.recomendaciones(account_user,elecciones)
+    return render_template('visualizar.html')
+
+@app.route('/visualizar', methods=['POST'])
+def visualizar():
+    global visu_cont
+    global control
+    print("VISUALIZAR "+repr(visu_cont))
+    imagen = ""
+    pos = 0
+    print("visualizar")
+    with open('election.json')as file:
+        elections = json.load(file)
+    print("VERIFICACION")
+    tam = elections['election'].__len__()
+    print("TAMAÑO "+repr(tam))
+    if visu_cont < tam:
+        print("VISU_CONT "+repr(visu_cont))
+        imagen = file_csv.obtener_imagen(elections['election'][visu_cont]['imagen'])
+        puntaje = float(elections['election'][visu_cont]['puntaje'])
+        puntaje = "{:.1f}".format(puntaje*100)
+        visu_cont = visu_cont+1
+        with open('ipfs_hash.json')as file:
+            data_hash = json.load(file)
+            tam = data_hash['hash'].__len__()
+            for i in range(tam):
+                if data_hash['hash'][i]['hash'] == imagen:
+                    pos = i
+        imagen = "../static/images/clasificar/imagen"+repr(pos)
+        print(imagen)
+        archivo = 'data/datos'+repr(pos)+'.json'
+        with open(archivo) as file:
+            datos = json.load(file)
+        titulo = datos['name']
+        fecha = datos['date']
+        descripcion = datos['description']
+        return render_template('visualizacion.html', imagen=imagen, titulo=titulo,
+        fecha=fecha, descripcion=descripcion, puntaje = puntaje)
+    else:
+        print("REINICIAR CONTADOR")
+        visu_cont = 0
+        return render_template('inicio.html')
+
 @app.route('/login', methods=['POST'])
 def login_process():
+    global visu_cont
+    visu_cont = 0
     data = request.form
 
     data_dictionary = data.copy()
@@ -244,6 +330,7 @@ def login_process():
         print(resultado_frase)
         if(resultado_frase[0]):
             cuenta = crud.obtener_cuenta(raiz, resultado_frase[1])
+            print("ESTA ES LA CUENTA:" + cuenta)
             return jsonify({ 'response' :  'Success' , 'address' : cuenta})
         else:
             print('sali en else interno')

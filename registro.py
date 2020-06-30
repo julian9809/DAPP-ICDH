@@ -1,4 +1,6 @@
 from web3 import Web3
+import json
+from solc import compile_files, link_code, compile_source
 import encriptamiento as ec
 import generador_frase as gf
 

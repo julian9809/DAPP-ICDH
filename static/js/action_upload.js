@@ -27,6 +27,23 @@ $(document).ready(function() {
     });
   });
 
+  $('#visualizar_imagen').click(function() {
+    $.ajax({
+      type: 'POST',
+      url: '/visualizacion',
+      success: function(response){
+        console.log(response);
+        var x = window.open("","_self");
+        x.document.open();
+        x.document.write(response);
+        x.document.close();
+      },
+      error: function(error){
+        console.log(error);
+      }
+    });
+  });
+
   $('#cargar_meta').click(function() {
     var name = $("#name").val();
     var description = $("#description").val();
