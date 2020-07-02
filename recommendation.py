@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import NearestNeighbors
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import sklearn
 import os
 from flask import json
@@ -31,6 +31,7 @@ def recomendaciones(usuario,elecciones):
     print('Sparsity: {:4.2f}%'.format(sparsity))
     ratings_train, ratings_test = train_test_split(ratings, test_size=0.1, random_state=42)
     print(ratings_train.shape)
+    print(ratings_train.shape[0])
     print(ratings_test.shape)
     sim_matrix = 1 - sklearn.metrics.pairwise.cosine_distances(ratings)
     print(sim_matrix.shape)
@@ -38,8 +39,9 @@ def recomendaciones(usuario,elecciones):
     #plt.colorbar()
     #plt.show()
     #separar las filas y columnas de train y test
-    sim_matrix_train = sim_matrix[0:5,0:5]
-    sim_matrix_test = sim_matrix[5:6,5:6]
+    tam_sim_matrix_test = ratings_train.shape[0] + ratings_test.shape[0]
+    sim_matrix_train = sim_matrix[0:ratings_train.shape[0],0:ratings_train.shape[0]]
+    sim_matrix_test = sim_matrix[ratings_train.shape[0]:tam_sim_matrix_test,ratings_train.shape[0]:tam_sim_matrix_test]
     print("MATRICES DE SIMUILITUD")
     print(sim_matrix_train.shape)
     print(sim_matrix_test.shape)
@@ -59,9 +61,11 @@ def recomendaciones(usuario,elecciones):
     user0=users_predictions.argsort()[usuario_ver]
     print(user0)
     # Veamos los tres recomendados con mayor puntaje en la predic para este usuario
-    for i, aImage in enumerate(user0[-15:]):
+    for i, aImage in enumerate(user0[-5:]):
         selImage = images[images['idImage']==(aImage+1)]
+        print("ANTES" + repr(imagen))
         imagen = selImage.iloc[0]['idImage']
+        print("DESPUES" + repr(imagen))
         puntaje = users_predictions[usuario_ver][aImage]
         if puntaje >= 0.51:
             elecciones['election'].append({

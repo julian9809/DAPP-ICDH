@@ -4,7 +4,7 @@ import re
 from collections import defaultdict
 
 # Read text from file and tokenize.
-path = '/home/juliand/Documentos/proyecto_colciencias_blockchain/dapp/pruebas/1342-0.txt'
+path = '/home/julian/Documentos/DAPP-ICDH/1342-0.txt'
 with open(path) as f:
   text = f.read()
 tokenized_text = [

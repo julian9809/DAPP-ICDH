@@ -59,3 +59,11 @@ def mostrar_informacion(raiz, user):
     for x in mydoc:
         return x
     return "no encontrado"
+
+def elecciones(raiz, user):
+    arrayMongo = []
+    listaElecciones = []
+    for document in raiz.find({ "address" : user }):
+        arrayMongo.append(document["violence_images"])
+    listaElecciones = arrayMongo[0]
+    return listaElecciones

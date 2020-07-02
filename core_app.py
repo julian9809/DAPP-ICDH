@@ -41,6 +41,10 @@ global imagenes
 imagenes = {}
 imagenes['images'] = []
 
+global imagenes_eleccion
+imagenes_eleccion = {}
+imagenes_eleccion['images'] = []
+
 if os.path.isfile('users.csv'):
     print("archivo existe")
 else:
@@ -77,6 +81,15 @@ else:
     with open('images.json','w')as file:
         json.dump(imagenes,file,indent=4)
 
+if os.path.isfile('images_eleccion.json'):
+    print("archivo existe")
+    with open('images_eleccion.json') as file:
+        imagenes_eleccion = json.load(file)
+else:
+    print("archivo no existe")
+    with open('images_eleccion.json','w')as file:
+        json.dump(imagenes_eleccion,file,indent=4)
+
 global elecciones
 elecciones = {}
 elecciones['election'] = []
@@ -95,6 +108,7 @@ else:
 
 visu_cont = 0
 cont_ima = 0
+cont_ima_elec = 0
 control = ""
 
 conexion = None
@@ -254,8 +268,19 @@ def form():
 
 @app.route('/visualizacion', methods=['POST'])
 def visualizacion():
+    folder = ['static/images/elecciones','data/elecciones']
+    for i in range(0,2):
+        print("PRUEBA BORRADO")
+        print(folder[i])
+        for the_file in os.listdir(folder[i]):
+            file_path = os.path.join(folder[i], the_file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+                    #elif os.path.isdir(file_path): shutil.rmtree(file_path)
+            except Exception as e:
+                print(e)
     global control
-    print("control = "+control)
     if control == "":
         if os.path.isfile('election.json'):
             print("archivo existe")
@@ -263,14 +288,16 @@ def visualizacion():
         else:
             print("archivo no existe")
             with open('election.json','w')as file:
-                json.dump(elecciones,file,indent=4)
-        control = rec.recomendaciones(account_user,elecciones)
+                json.dump(elecciones,file,indent=4)    
     return render_template('visualizar.html')
 
 @app.route('/visualizar', methods=['POST'])
 def visualizar():
     global visu_cont
     global control
+    print("CONTROL " + control)
+    if control == "":
+        control = rec.recomendaciones(account_user,elecciones)
     print("VISUALIZAR "+repr(visu_cont))
     imagen = ""
     pos = 0
@@ -307,8 +334,33 @@ def visualizar():
         visu_cont = 0
         return render_template('inicio.html')
 
+@app.route('/visualizar_eleccion', methods=['POST'])
+def election():
+    listaElecciones = []
+    listaElecciones = crud.elecciones(raiz,account_user)
+    global cont_ima_elec
+    if cont_ima_elec == 0:
+        print(ipfs.cargar_elecciones(listaElecciones,imagenes_eleccion))    
+    tam = listaElecciones.__len__()
+    print(cont_ima_elec)
+    if cont_ima_elec < tam:
+        imagen = "../static/images/elecciones/imagen"+repr(cont_ima_elec)
+        archivo = 'data/elecciones/datos'+repr(cont_ima_elec)+'.json'
+        with open(archivo) as file:
+            datos = json.load(file)
+        titulo = datos['name']
+        fecha = datos['date']
+        descripcion = datos['description']
+        cont_ima_elec = cont_ima_elec + 1
+        print(cont_ima_elec)
+        return render_template('elecciones.html', imagen=imagen, titulo=titulo, fecha=fecha, descripcion=descripcion)
+    else:
+        cont_ima_elec = 0
+        return render_template('visualizar.html')
+
 @app.route('/login', methods=['POST'])
 def login_process():
+    global control
     global visu_cont
     visu_cont = 0
     data = request.form
@@ -331,6 +383,8 @@ def login_process():
         if(resultado_frase[0]):
             cuenta = crud.obtener_cuenta(raiz, resultado_frase[1])
             print("ESTA ES LA CUENTA:" + cuenta)
+            if cuenta != account_user:
+                control = ""
             return jsonify({ 'response' :  'Success' , 'address' : cuenta})
         else:
             print('sali en else interno')
@@ -338,7 +392,6 @@ def login_process():
     else:
         print('sali else externo')
         return jsonify({'response' : 'Error'})
-
 
 @app.route('/register', methods=['POST'])
 def register_process():
