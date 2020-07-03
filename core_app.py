@@ -283,7 +283,7 @@ def visualizacion():
     global control
     if control == "":
         if os.path.isfile('election.json'):
-            print("archivo existe")
+            elecciones['election'] = []
             remove("election.json")
         else:
             print("archivo no existe")
@@ -297,6 +297,13 @@ def visualizar():
     global control
     print("CONTROL " + control)
     if control == "":
+        if os.path.isfile('election.json'):
+            elecciones['election'] = []
+            remove("election.json")
+        else:
+            print("archivo no existe")
+            with open('election.json','w')as file:
+                json.dump(elecciones,file,indent=4) 
         control = rec.recomendaciones(account_user,elecciones)
     print("VISUALIZAR "+repr(visu_cont))
     imagen = ""

@@ -11,6 +11,7 @@ from flask import json
 def recomendaciones(usuario,elecciones):
     users = pd.read_csv("users.csv")
     images = pd.read_csv("images.csv")
+    print(usuarios_test(pd.read_csv("election.csv"),users))
     clasificacion = pd.read_csv("election.csv")    
     print(usuarios_test(clasificacion,users))
     n_users = clasificacion.idUser.unique().shape[0]
@@ -78,7 +79,9 @@ def recomendaciones(usuario,elecciones):
 
 def usuarios_test(clasificacion,users):
     n_usuarios = users.idUser.unique().shape[0]
+    print(n_usuarios)
     n_users = clasificacion.idUser.unique().shape[0]
+    print(n_users)
     n_images = clasificacion.IdImage.unique().shape[0]
     if n_users == n_usuarios:
         for i in range(0,2):
