@@ -94,6 +94,19 @@ global elecciones
 elecciones = {}
 elecciones['election'] = []
 
+global clasificaciones
+clasificaciones = {}
+clasificaciones['clas'] = []
+
+if os.path.isfile('clas.json'):
+    print("archivo existe")
+    with open('clas.json') as file:
+        clasificaciones = json.load(file)
+else:
+    print("archivo no existe")
+    with open('clas.json','w')as file:
+        json.dump(clasificaciones,file,indent=4)
+
 global elections
 elections = {}
 elections['election'] = []
@@ -110,6 +123,7 @@ visu_cont = 0
 cont_ima = 0
 cont_ima_elec = 0
 control = ""
+cont_clas = 0
 
 conexion = None
 conexion, database ,raiz = crud.establecer_conexion(conexion)
@@ -149,10 +163,23 @@ def carga_imagen():
 
 @app.route('/clasificar', methods=['POST'])
 def clasificar():
-    return render_template('cargar_imagenes.html')
+    global cont_clas
+    tam_clas = clasificaciones['clas'].__len__()
+    print("TAMAÑO DE CLAS "+repr(tam_clas))    
+    for i in range(0,tam_clas):
+        print(clasificaciones['clas'][i]['clas'])
+        if clasificaciones['clas'][i]['clas'] == account_user:
+            cont_clas = cont_clas+1 
+    print("CONTADOR " + repr(cont_clas))   
+    if cont_clas == 5:
+        cont_clas = 0
+        return render_template('visualizar.html')        
+    else:
+        cont_clas = 0
+        return render_template('cargar_imagenes.html')
 
 @app.route('/cargar_imagenes', methods=['POST'])
-def cargar_imagenes():
+def cargar_imagenes():     
     folder = ['static/images/clasificar','data']
     for i in range(0,2):
         print("PRUEBA BORRADO")
@@ -172,36 +199,46 @@ def cargar_imagenes():
 
 @app.route('/clasificacion', methods=['POST'])
 def clasificacion():
-    global cont_ima
-    print("CONTADOR"+repr(cont_ima))
-    data = request.form
-    data_dictionary = data.copy()
-    clas = data_dictionary["clasificacion"]
-    print("CLASIFICACION = "+clas)
-    hash = data_hash['hash'][cont_ima-1]['hash']
-    print("ESTE ES EL HASH"+hash)
-    verificacion = crud.verificar_existencia(raiz, account_user, hash)
-    print(verificacion)
-    if verificacion == "no existe" and clas != "no_clasificado":
-        print("insertando...")
-        print(crud.insertar_seleccion(raiz, account_user, hash, clas))
-    print(crud.mostrar_informacion(raiz, account_user))
-    fieldnames = ['idUser', 'IdImage','election']
-    print(file_csv.insertar_eleccion(clas,fieldnames,account_user,hash))
-    tam = data_hash['hash'].__len__()
-    if cont_ima < tam:
-        imagen = "../static/images/clasificar/imagen"+repr(cont_ima)
-        archivo = 'data/datos'+repr(cont_ima)+'.json'
-        with open(archivo) as file:
-            datos = json.load(file)
-        titulo = datos['name']
-        fecha = datos['date']
-        descripcion = datos['description']
-        cont_ima = cont_ima + 1
-        return render_template('clasificacion.html', imagen=imagen, titulo=titulo, fecha=fecha, descripcion=descripcion)
+    global cont_ima   
+    global cont_clas
+    if cont_clas <= 4:
+        clasificaciones['clas'].append({
+            'clas' : account_user
+        })
+        with open('clas.json','w')as file:
+            json.dump(clasificaciones,file,indent=4)
+    if cont_clas <= 5:
+        print("CONTADOR"+repr(cont_ima))
+        data = request.form
+        data_dictionary = data.copy()
+        clas = data_dictionary["clasificacion"]
+        print("CLASIFICACION = "+clas)
+        hash = data_hash['hash'][cont_ima-1]['hash']
+        print("ESTE ES EL HASH"+hash)
+        verificacion = crud.verificar_existencia(raiz, account_user, hash)
+        print(verificacion)
+        if verificacion == "no existe" and clas != "no_clasificado":
+            print("insertando...")
+            print(crud.insertar_seleccion(raiz, account_user, hash, clas))
+        print(crud.mostrar_informacion(raiz, account_user))
+        fieldnames = ['idUser', 'IdImage','election']
+        print(file_csv.insertar_eleccion(clas,fieldnames,account_user,hash))
+        tam = data_hash['hash'].__len__()
+        if cont_ima < tam:
+            imagen = "../static/images/clasificar/imagen"+repr(cont_ima)
+            archivo = 'data/datos'+repr(cont_ima)+'.json'
+            with open(archivo) as file:
+                datos = json.load(file)
+            titulo = datos['name']
+            fecha = datos['date']
+            descripcion = datos['description']
+            cont_ima = cont_ima + 1
+            return render_template('clasificacion.html', imagen=imagen, titulo=titulo, fecha=fecha, descripcion=descripcion)
+        else:
+            cont_ima = 0
+            return render_template('clas_fin.html')
     else:
-        cont_ima = 0
-        return render_template('clas_fin.html')
+        return render_template('visualizar.html')
 
 @app.route('/carga_ipfs', methods=['POST'])
 def carga_ipfs():
