@@ -11,7 +11,6 @@ def insertar_datos(archivo,columnas,dato):
             id = id+1
             if row[columnas[1]] == dato:
                 cont = cont+1
-    print("EL RESULTADO DEL CONTADOR ES "+repr(cont))
     id = id+1
     if cont == 0:
         fieldnames = columnas
@@ -51,3 +50,27 @@ def obtener_imagen(id_image):
             if row['idImage'] == id_image:
                 imagen = row['image']
     return imagen
+
+def verificar_clasificacion(user):
+    id = 0
+    cont = 0
+    cont_img = 0
+    with open("users.csv") as File:
+        reader = csv.DictReader(File)
+        for row in reader:
+            id = id + 1
+            if row['user'] == user:
+                print("encontrado")
+    with open("images.csv") as File:
+        reader = csv.DictReader(File)
+        for row in reader:
+            cont_img = cont_img + 1
+    with open("election.csv") as File:
+        reader = csv.DictReader(File)
+        for row in reader:
+            if row['idUser'] == id:
+                cont = cont + 1
+    if cont <= cont_img:
+        return "clasificar"
+    else:
+        return "recomendaciones"

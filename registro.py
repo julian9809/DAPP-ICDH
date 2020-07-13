@@ -4,7 +4,7 @@ from solc import compile_files, link_code, compile_source
 import encriptamiento as ec
 import generador_frase as gf
 
-infura_url = "https://mainnet.infura.io/v3/e78980b5c49e414b8acb07a9d14b4be4"
+infura_url = "https://mainnet.infura.io/v3/98ef5cb0f48241568905e8bfd41ca55c"
 
 global web3
 

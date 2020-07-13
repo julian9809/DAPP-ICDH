@@ -102,6 +102,7 @@ $(document).ready(function() {
   });
 
   $('#btn_carga_ipfs').click(function() {
+    alertify.success('Imagen cargada con exito');
     $.ajax({
       type: 'POST',
       url: '/carga_ipfs',
@@ -153,6 +154,7 @@ $(document).ready(function() {
   });
 
   $('#btn_inicio_ipfs').click(function() {
+    alertify.success('Imagen cargada con exito');
     $.ajax({
       type: 'POST',
       url: '/inicio_ipfs',

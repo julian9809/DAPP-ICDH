@@ -83,7 +83,7 @@ def usuarios_test(clasificacion,users):
     n_users = clasificacion.idUser.unique().shape[0]
     print(n_users)
     n_images = clasificacion.IdImage.unique().shape[0]
-    if n_users == n_usuarios:
+    if n_users <= n_usuarios:
         for i in range(0,2):
             for j in range(0,n_images):
                 idUser = "test"+repr(i)

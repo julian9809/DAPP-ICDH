@@ -1,7 +1,14 @@
 {% extends 'base/base.html' %}
 {% block content %}
+{% if error == "error" %}
+    {% block contentd %}
+    <div class="alert alert-danger" role="alert" >
+      No se ha hecho una clasificación o no se han clasificado todas las imagenes 
+    </div>
+   	{% endblock contentd %}
+{% endif %}
 <div class="container panel panel-success" id="exito">
-  <div class="panel-heading">Cargar imagenes</div>
+  <div class="panel-heading">Clasificar imagenes</div>
   <div class="panel-body">
     <p>Las imagenes seran traidas del repositorio para su clasificación</p>
     <p>¿Desea hacer la carga?</p>

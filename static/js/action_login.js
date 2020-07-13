@@ -82,8 +82,6 @@ $(document).ready(function() {
   $('#btn_registrar').click(function() {
     var password = $("#password_registrer").val();
     var password_confirmation = $("#password_registrer_confirmation").val();
-    alert(password);
-    alert(password_confirmation);
     if(password === '' || password_confirmation === ''){
       swal({
              title: "Oops!",
@@ -159,7 +157,6 @@ $('#btn_guardar').click(function() {
 });
 
 $('#log_out').click(function() {
-  alert('log out');
   //var json_text = '{"account" : '+'"'+account+'"}';
   //var obj_data = JSON.parse(json_text);
   //console.log(obj_data)
