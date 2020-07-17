@@ -62,7 +62,7 @@ def recomendaciones(usuario,elecciones):
     user0=users_predictions.argsort()[usuario_ver]
     print(user0)
     # Veamos los tres recomendados con mayor puntaje en la predic para este usuario
-    for i, aImage in enumerate(user0[-5:]):
+    for i, aImage in enumerate(user0[-10:]):
         selImage = images[images['idImage']==(aImage+1)]
         print("ANTES" + repr(imagen))
         imagen = selImage.iloc[0]['idImage']

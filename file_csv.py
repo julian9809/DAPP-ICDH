@@ -52,15 +52,14 @@ def obtener_imagen(id_image):
     return imagen
 
 def verificar_clasificacion(user):
-    id = 0
+    id = ''
     cont = 0
     cont_img = 0
     with open("users.csv") as File:
         reader = csv.DictReader(File)
         for row in reader:
-            id = id + 1
             if row['user'] == user:
-                print("encontrado")
+                id = row['idUser']
     with open("images.csv") as File:
         reader = csv.DictReader(File)
         for row in reader:

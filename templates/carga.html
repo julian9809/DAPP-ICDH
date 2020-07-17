@@ -1,6 +1,6 @@
 {% extends 'base/base.html' %}
 {% block content %}
-<div class="tab-pane container" id="panelCarga">
+<div class="tab-pane container-fluid" id="panelCarga">
   <br>
   <div id="inicioCargar">
     <button type="button" name="button" class="btn btn-primary" id="btn_inicio">
@@ -10,13 +10,14 @@
   <br>
   <br>
   <form action="/uploader" method="post" enctype="multipart/form-data">
+    <p>Cargue una imagen desde su dispositivo</p>
     <div>
       <p>Cargue una imagen desde su equipo</p>
-      <input id="archivos" name="imagenes" type="file" multiple=true class="file">
+      <input id="archivos" name="imagenes" type="file" multiple=true class="custom-file-input">
       <script>
         $("#archivos").fileinput({
           uploadAsync: false,
-          MaxFileCount: 1,
+          MaxFileCount: 2,
           showRemove: true,
           showCancel: true,
           showUpload: false

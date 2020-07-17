@@ -344,8 +344,6 @@ def election():
     listaElecciones = []
     listaElecciones = crud.elecciones(raiz,account_user)
     if (listaElecciones):
-        return render_template('cargar_imagenes.html', error='error')
-    else:
         global cont_ima_elec
         if cont_ima_elec == 0:
             print(ipfs.cargar_elecciones(listaElecciones,imagenes_eleccion))    
@@ -363,6 +361,8 @@ def election():
         else:
             cont_ima_elec = 0
             return render_template('visualizar.html')
+    else:
+        return render_template('cargar_imagenes.html', error='error')        
 
 @app.route('/login', methods=['POST'])
 def login_process():
